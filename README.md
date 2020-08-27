@@ -30,7 +30,7 @@ This will redirect you to a page where you can properly log in to your Account l
 
 ##### Pushing changes
 
-<pre><code>firebase deploy</pre></code>
+<pre><code>firebase deploy --only functions:YourFunctionName</pre></code>
 
 ## References
 
