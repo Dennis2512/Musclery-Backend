@@ -27,6 +27,7 @@ This will redirect you to a page where you can properly log in to your Account l
 ##### Install dependencies
 
 <pre><code>cd functions && npm install</pre></code><br>
+Now you should be ready to contribute.
 
 ##### Pushing changes
 
