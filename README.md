@@ -31,3 +31,8 @@ This will redirect you to a page where you can properly log in to your Account l
 ##### Pushing changes
 
 <pre><code>firebase deploy</pre></code>
+
+## References
+
+Getting started with firebase: https://www.youtube.com/watch?v=DYfP-UIKxH0 <\br>
+Code examples: https://github.com/Nevuor/Webentwicklung
