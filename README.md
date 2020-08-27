@@ -34,5 +34,5 @@ This will redirect you to a page where you can properly log in to your Account l
 
 ## References
 
-Getting started with firebase: https://www.youtube.com/watch?v=DYfP-UIKxH0 <\br>
+Getting started with firebase: https://www.youtube.com/watch?v=DYfP-UIKxH0 </br>
 Code examples: https://github.com/Nevuor/Webentwicklung
