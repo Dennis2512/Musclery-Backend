@@ -12,7 +12,7 @@ Before you start, make sure npm is available. <br>
 
 ##### Clone the repository
 
-<pre><code>git clone https://github.com/Dennis2512/Musclery-Backend.git </pre></code><br>
+<pre><code>git clone https://github.com/Dennis2512/Musclery-Backend.git && cd Musclery-Backend</pre></code><br>
 
 ##### Install firebase CLI
 
