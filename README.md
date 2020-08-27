@@ -27,12 +27,13 @@ This will redirect you to a page where you can properly log in to your Account l
 ##### Install dependencies
 
 <pre><code>cd functions && npm install</pre></code><br>
+Now you should be ready to contribute.
 
 ##### Pushing changes
 
-<pre><code>firebase deploy</pre></code>
+<pre><code>firebase deploy --only functions:YourFunctionName</pre></code>
 
 ## References
 
 Getting started with firebase: https://www.youtube.com/watch?v=DYfP-UIKxH0 </br>
-Code examples: https://github.com/Nevuor/Webentwicklung
+Code examples: https://github.com/Dennis2512/Musclery-Backend/tree/master/examples
