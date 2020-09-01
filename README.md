@@ -2,6 +2,8 @@
 
 Musclery TrainingsJournal - Backend
 
+Main: https://github.com/Dennis2512/Musclery-Main
+
 ## Backend-Team:
 
 Arthur Siebert, Lukas Blank, Tobias Bergmeier
