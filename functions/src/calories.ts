@@ -45,7 +45,8 @@ export const calories: functions.HttpsFunction = functions
             doc.get('fatPMG')
           )
         )
-      })
+      });
+      response.status(200).send({ data: foodL });
     } catch (e) {
       response.status(400).send('damn');
     }
