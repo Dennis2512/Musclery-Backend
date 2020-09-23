@@ -4,5 +4,6 @@ export const calories: functions.HttpsFunction = functions
   .https.onRequest(
     (request: functions.https.Request, response: functions.Response) => {
       response.send('Hello from calories!');
+      
     }
   );
