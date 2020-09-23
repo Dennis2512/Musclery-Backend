@@ -4,10 +4,13 @@ export class Training {
   private id?: string;
   private date?: Date;
   private exercises: Exercise[];
-  constructor(id?: string, date?: Date, exercises?: Exercise[]) {
+  private name?: string;
+
+  constructor(id?: string, name?: string, date?: Date, exercises?: Exercise[]) {
     this.id = id;
     this.date = date;
     this.exercises = exercises || [];
+    this.name = name;
   }
 
   // setter
@@ -24,6 +27,10 @@ export class Training {
     this.exercises = exercises;
   }
 
+  public setName(name: string): void {
+    this.name = name;
+  }
+
   public addExercise(exercise: Exercise): void {
     this.exercises.push(exercise);
   }
@@ -36,6 +43,10 @@ export class Training {
 
   public getID(): string | undefined {
     return this.id;
+  }
+
+  public getName(): string | undefined {
+    return this.name;
   }
 
   public getDate(): Date | undefined {

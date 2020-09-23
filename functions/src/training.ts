@@ -1,7 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { Training } from './models/training';
-admin.initializeApp();
 
 export const training: functions.HttpsFunction = functions
   .region('europe-west2')
@@ -16,11 +15,11 @@ export const training: functions.HttpsFunction = functions
           response.set('Access-Control-Allow-Headers', '*');
           response.status(204).send('');
           break;
-        case 'POST':
-          postWorkout(request, response);
-          break;
         case 'GET':
-          getWorkouts(request, response);
+          await getWorkouts(request, response);
+          break;
+        case 'POST':
+          await postWorkout(request, response);
           break;
         default:
           response.status(405).send('Method not allowed.');
@@ -40,6 +39,7 @@ async function getWorkouts(
       const query: FirebaseFirestore.QuerySnapshot<FirebaseFirestore.DocumentData> = await admin
         .firestore()
         .collection('user/' + decoded.uid + '/workouts')
+        .orderBy('date', 'desc')
         .get();
       const workouts: Training[] = [];
       query.forEach(
@@ -51,6 +51,7 @@ async function getWorkouts(
           workouts.push(
             new Training(
               document.id,
+              document.data().name,
               document.data().date,
               document.data().exercises
             )
@@ -73,20 +74,53 @@ async function postWorkout(
   response: functions.Response
 ) {
   const decoded = await authorize(request);
-  if (decoded && request.body.workout) {
-    try {
-      const doc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData> = await admin
-        .firestore()
-        .collection('user/' + decoded.uid + '/workouts/')
-        .add(request.body.workout);
-      response.status(200).send({ id: doc.id });
-    } catch (err) {
-      response.status(400).send('Error: ' + err);
+  if (decoded) {
+    if (!request.body.id) {
+      await addWorkout(response, decoded);
+    } else if (request.body.training) {
+      await updateWorkout(request, response, decoded);
+    } else {
+      response.status(400).send('Body is missing.');
     }
-  } else if (!decoded) {
+  } else {
     response.status(408).send('Unauthorized.');
-  } else if (!request.body.workout) {
-    response.status(400).send('Body is missing.');
+  }
+}
+
+async function addWorkout(
+  response: functions.Response,
+  decoded: admin.auth.DecodedIdToken
+) {
+  try {
+    const doc: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData> = await admin
+      .firestore()
+      .collection('user/' + decoded.uid + '/workouts/')
+      .add({ date: new Date(Date.now()) });
+    const res = await doc.get();
+    response.status(200).send({ data: res.data(), id: res.id });
+  } catch (err) {
+    response.status(400).send('Error: ' + err);
+  }
+}
+
+async function updateWorkout(
+  request: functions.https.Request,
+  response: functions.Response,
+  decoded: admin.auth.DecodedIdToken
+) {
+  try {
+    const data: any = {};
+    if (request.body.training.name) data.name = request.body.training.name;
+    if (request.body.training.date) data.date = request.body.training.date;
+    if (request.body.training.exercises)
+      data.exercises = request.body.training.exercises;
+    const res: FirebaseFirestore.WriteResult = await admin
+      .firestore()
+      .doc('user/' + decoded.uid + '/workouts/' + request.body.id)
+      .set(data);
+    response.status(200).send({ data: res });
+  } catch (err) {
+    response.status(400).send('Error: ' + err);
   }
 }
 
